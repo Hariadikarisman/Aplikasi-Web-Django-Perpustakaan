@@ -1,0 +1,8 @@
+<center>
+    <h5 class="mt-3">
+        <b>PERPUSTAKAAN</b>
+    </h5>
+    {% if user.is_authenticated %}
+        <p>Hallo <strong>{{ user }}</strong> // <a href="{% url 'keluar' %}">Keluar</a></p>
+    {% endif %}
+</center>

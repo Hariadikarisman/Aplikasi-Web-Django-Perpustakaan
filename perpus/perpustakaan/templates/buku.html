@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col">
+                        <h3><b>Data Buku</b></h3>
+                    </div>
+                    <div class="col">
+                        <a href="{% url 'export_xls' %}">
+                            <button class="btn btn-sm btn-success float-right ml-2">Export.xls</button>
+                        </a>
+                        <a href="{% url 'tambahBuku' %}">
+                            <button type="button" class="btn btn-sm btn-warning float-right">+ Data Buku</button>
+                        </a>
+                    </div>
+                </div>
+                {% for message in messages %}
+                    {% if message %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Gambar</th>
+                            <th>Judul</th>
+                            <th>Penulis</th>
+                            <th>Penerbit</th>
+                            <th>Jumlah</th>
+                            <th>Kelompok</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for buku in book %}
+                            <tr>
+                                <td>
+                                    {% if buku.cover %}
+                                        <center><img src="{{ buku.cover.url }}" alt="" width="70" height="100"></center>
+                                    {% endif %}
+                                </td>
+                                <td>{{ buku.judul }}</a></td>
+                                <td>{{ buku.penulis }}</td>
+                                <td>{{ buku.penerbit }}</td>
+                                <td>{{ buku.jumlah }}</td>
+                                <td>{{ buku.kelompok_id }}</td>
+                                <td>
+                                    <a href="{% url 'ubahBuku' buku.id %}">
+                                        <button type="button" class="btn btn-sm btn-warning mt-1">Ubah</button>
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-danger mt-1" data-toggle="modal" data-target="#hapus-{{ buku.id }}">
+                                        Hapus
+                                    </button>
+                                </td>
+                                <!-- MODAL -->
+                                <div class="modal fade" id="hapus-{{ buku.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Hapus Data Buku</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda Ingin Menghapus Data Buku <strong>{{ buku.judul | upper }}</strong> ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                <a href="{% url 'hapusBuku' buku.id %}">
+                                                    <button type="button" class="btn btn-danger">Hapus</button>
+                                                </a> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

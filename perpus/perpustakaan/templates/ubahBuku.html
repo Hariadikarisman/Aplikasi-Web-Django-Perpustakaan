@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mt-3">
+                {% for message in messages %}
+                    {% if message %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+                <h3>Ubah Data Buku {{ buku.judul }}</h3>
+                <form action="{% url 'ubahBuku' buku.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }} <!-- .as_p adalah untuk membuat form menjadi berurut kebawah atau paragrafh -->
+                    <button class="btn btn-sm btn-primary">
+                        Ubah Data Buku
+                    </button>
+                    <a href="/buku" class="btn btn-sm btn-danger">Kembali</a>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
